@@ -1,6 +1,7 @@
 # i3 config file (v4)
 
-# I use alt for primary mod key, since there are two of them on either side of the space bar:
+# I use alt for primary mod key, since there are two of them on either side of the space bar,
+# which makes it easier do hit hot keys without lifting my fingers from the keyboard:
 set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
