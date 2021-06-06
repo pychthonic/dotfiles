@@ -26,7 +26,7 @@
 
 from typing import List  # noqa: F401
 
-from libqtile import bar, layout, widget
+from libqtile import bar, layout, widget, extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
@@ -74,12 +74,16 @@ keys = [
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
 
-    Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
+    Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(),
         desc="Spawn a command using a prompt widget"),
+    Key([mod], 'd', lazy.spawn('rofi -show run'), desc="Spawn rofi"),
+    Key([mod], 'c', lazy.spawn('chromium'), desc="Spawn chromium"),
+    Key([mod, "shift"], "c", lazy.spawn('chromium --incognito'),
+        desc="Spawn chromium incognito")
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -123,6 +127,28 @@ widget_defaults = dict(
 extension_defaults = widget_defaults.copy()
 
 screens = [
+    Screen(
+        bottom=bar.Bar(
+            [
+                widget.CurrentLayout(),
+                widget.GroupBox(),
+                widget.Prompt(),
+                widget.WindowName(),
+                widget.Chord(
+                    chords_colors={
+                        'launch': ("#ff0000", "#ffffff"),
+                    },
+                    name_transform=lambda name: name.upper(),
+                ),
+                widget.TextBox("default config", name="default"),
+                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                widget.Systray(),
+                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
+                widget.QuickExit(),
+            ],
+            24,
+        ),
+    ),
     Screen(
         bottom=bar.Bar(
             [
