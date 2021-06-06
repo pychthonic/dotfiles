@@ -1,7 +1,5 @@
 set number relativenumber
 
-syntax on
-
 if has('filetype')
 	filetype indent plugin on
 endif
